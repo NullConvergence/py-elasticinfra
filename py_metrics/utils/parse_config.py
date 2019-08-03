@@ -35,7 +35,10 @@ class ConfigParser:
           keyword args given as "args".
         """
         module_name = module_config["type"]
-        module_args = dict(module_config["args"])
+        if "args" in module_config:
+            module_args = dict(module_config["args"])
+        else:
+            module_args = {}
         assert all([k not in module_args for k in kwargs]
                    ), "Overwriting kwargs given in config file is not allowed"
         module_args.update(kwargs)

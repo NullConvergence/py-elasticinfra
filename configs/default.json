@@ -6,6 +6,12 @@
     {
       "type": "CpuLoad",
       "args": {}
+    },
+    {
+      "type": "CpuTemp",
+      "args": {
+        "tmp_key": "k10temp"
+      }
     }
   ],
   "elk": {
