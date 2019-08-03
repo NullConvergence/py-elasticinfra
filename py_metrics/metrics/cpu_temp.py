@@ -12,8 +12,8 @@ class CpuTemp(BaseMetric):
 
     def measure(self):
         temps = self._get_temps()
-        return {"temperatures": temps,
-                "averages": self._get_temp_averages(temps)}
+        return {"cpu_temperatures": temps,
+                "cpu_temperature_average": self._get_temp_averages(temps)}
 
     def _get_temps(self):
         temp = psutil.sensors_temperatures()
@@ -28,10 +28,10 @@ class CpuTemp(BaseMetric):
         return temps
 
     def _get_temp_averages(self, temps):
-        labels = set([t['label'] for t in temps])
+        labels = set([t["label"] for t in temps])
         metadata = {}
         for label in labels:
-            res = [t['current'] for t in temps if t['label'] == label]
+            res = [t["current"] for t in temps if t["label"] == label]
             res = np.array(res)
             metadata[label] = np.average(res)
         return metadata

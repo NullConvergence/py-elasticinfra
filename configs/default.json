@@ -4,14 +4,16 @@
   "save_dir": "saved/",
   "metrics": [
     {
-      "type": "CpuLoad",
-      "args": {}
+      "type": "CpuLoad"
     },
     {
       "type": "CpuTemp",
       "args": {
         "tmp_key": "k10temp"
       }
+    },
+    {
+      "type": "GPUs"
     }
   ],
   "elk": {
