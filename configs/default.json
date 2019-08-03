@@ -1,0 +1,30 @@
+{
+  "time": 5,
+  "name": "x4",
+  "save_dir": "saved/",
+  "metrics": [
+    {
+      "type": "CpuLoad",
+      "args": {}
+    }
+  ],
+  "elk": {
+    "elastic": {
+      "host": "http://elastic:changeme@localhost:9200/",
+      "index": {
+        "name": "experiment-metrics",
+        "config": {
+          "mappings": {
+            "_default_": {
+              "_timestamp": {
+                "enabled": true,
+                "store": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "logstash": {}
+  }
+}
