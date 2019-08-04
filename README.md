@@ -20,3 +20,6 @@ Make sure you edit the elasticsearch host data before you run the project.
 
 You can add new metrics by adding a new file in the ```py_metrics/metrics``` folder and subclassing the BaseMetric.
 Afterwards, you can add it to the ```__init__.py``` file and to the config.
+
+In order to run the ELK stack in docker, see [docker-elk](https://github.com/deviantony/docker-elk).
+The indexed data can be mined using Kibana.
