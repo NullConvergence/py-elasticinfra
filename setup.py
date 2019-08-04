@@ -5,7 +5,7 @@ with open('requirements.txt') as f:
     required = f.read().splitlines()
 
 setup(
-    name='py-easticinfra',
+    name='pyeasticinfrastructure',
     version='1.0',
     description='A small utilty to index infrastructure metrics to elasticsearch',
     author='NullConvergence',
