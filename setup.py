@@ -1,14 +1,14 @@
 import os
-from setuptools import setup
+from setuptools import find_packages, setup
 
 with open('requirements.txt') as f:
     required = f.read().splitlines()
 
 setup(
-    name='pyeasticinfrastructure',
-    version='1.0',
+    name='py-elasticinfrastructure',
+    version='1.1.0',
     description='A small utilty to index infrastructure metrics to elasticsearch',
     author='NullConvergence',
-    packages=['py_elasticinfra'],
+    packages=find_packages(),
     install_requires=required
 )

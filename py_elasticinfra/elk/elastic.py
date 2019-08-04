@@ -4,10 +4,15 @@ from elasticsearch.helpers import bulk
 
 
 class Indexer:
-    def __init__(self, config):
+    def __init__(self, config, logger=None):
         self.config = config["elk"]["elastic"]
         self.index = self.config["index"]
-        self.logger = config.get_logger("elk_logger")
+        if logger is None:
+            try:
+                logger = config.get_logger("elk_logger")
+            except:
+                raise("[ERROR] Please provide logger.")
+        self.logger = logger
 
     def connect(self):
         try:

@@ -20,11 +20,14 @@ def main(config):
     es.create_index()
     # initialize threads and run in parallel
     runner = Runner(config, es)
-    thread_es = runner.run_background()
+    runner.run_background()
+
     thread_main = threading.Thread(name="foreground_thread",
                                    target=foreground_thread)
-    thread_es.start()
     thread_main.start()
+
+    time.sleep(5)
+    runner.stop_background()
 
 
 if __name__ == "__main__":
@@ -38,5 +41,6 @@ if __name__ == "__main__":
         custom_args(["--elk", "--elk_host"], type=str,
                     target=("elk", "host"))
     ]
-    config = ConfigParser(args, options)
+    config = ConfigParser(parse_args=True, args=args, options=options)
+    config.init_logger()
     main(config)

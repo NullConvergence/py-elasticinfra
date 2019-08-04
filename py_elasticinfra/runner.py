@@ -1,6 +1,7 @@
 import threading
 import time
 import py_elasticinfra.metrics as module_metric
+from py_elasticinfra.utils.loop_thread import LoopThread
 
 
 class Runner:
@@ -28,6 +29,14 @@ class Runner:
             return bulk_results
 
     def run_background(self, index=True):
-        return threading.Thread(name="background",
-                                target=self.loop,
-                                kwargs={"index": index})
+        self.loop_thread = LoopThread(
+            run_method=self.run,
+            run_kwargs={"index": index},
+            thread_kwargs={"name": "background-loop"},
+            sleep=self.config["time"]
+        )
+        self.loop_thread.start()
+
+    def stop_background(self):
+        if self.loop_thread:
+            self.loop_thread.stop()

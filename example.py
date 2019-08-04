@@ -27,5 +27,6 @@ if __name__ == "__main__":
         custom_args(["--elk", "--elk_host"], type=str,
                     target=("elk", "host"))
     ]
-    config = ConfigParser(args, options)
+    config = ConfigParser(parse_args=True, args=args, options=options)
+    config.init_logger()
     main(config)

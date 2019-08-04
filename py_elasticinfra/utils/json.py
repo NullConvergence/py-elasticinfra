@@ -9,6 +9,10 @@ def read_json(fname, dic=True):
         return json.load(handle)
 
 
+def convert_json(data):
+    return json.loads(data, object_pairs_hook=OrderedDict)
+
+
 def write_json(content, fname):
     with fname.open('wt') as handle:
         json.dump(content, handle, indent=4, sort_keys=False)
