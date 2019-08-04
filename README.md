@@ -3,12 +3,12 @@ This small utilty indexes infrastructure metrics to elasticsearch.
 
 
 It was created to gather infrastructure data from machine learning experiments, with a focus on GPU utilization and CPU temperature.
-The inspiration comes from metricbeats, by Elastic, however, this module is written in Python and it is easier to customize (unfortunately some community beats for Elastic are outdated and hard to run).
+The inspiration comes from metricbeats by Elastic. However, this module is written in Python and it is easier to customize (unfortunately some community beats for Elastic are outdated and hard to run).
 
 ## Install
 
 ```
-$ pip install pyelasticinfrastructure
+$ pip install py-elasticinfrastructure 
 ```
 
 ## Run
