@@ -1,4 +1,4 @@
-# py_metrics
+# py-elasticinfra
 This small utilty indexes infrastructure metrics to elasticsearch.
 
 
