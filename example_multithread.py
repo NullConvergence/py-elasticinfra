@@ -2,9 +2,9 @@ import argparse
 import collections
 import time
 import threading
-from py_metrics.utils.parse_config import ConfigParser
-from py_metrics.elk.elastic import Indexer
-from py_metrics.runner import Runner
+from py_elasticinfra.utils.parse_config import ConfigParser
+from py_elasticinfra.elk.elastic import Indexer
+from py_elasticinfra.runner import Runner
 
 
 def foreground_thread():
@@ -28,7 +28,7 @@ def main(config):
 
 
 if __name__ == "__main__":
-    args = argparse.ArgumentParser(description="py_metrics")
+    args = argparse.ArgumentParser(description="py_elasticinfra")
     args.add_argument("-c", "--config", default=None, type=str,
                       help="config file path (default: None)")
     # custom cli options to modify configuration

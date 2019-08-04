@@ -2,8 +2,8 @@ from datetime import datetime
 from functools import reduce
 from operator import getitem
 from pathlib import Path
-from py_metrics.utils.json import read_json
-from py_metrics.logger import Logger
+from py_elasticinfra.utils.json import read_json
+from py_elasticinfra.logger import Logger
 
 
 class ConfigParser:

@@ -1,7 +1,7 @@
 import logging
 import logging.config
 from pathlib import Path
-from py_metrics.utils.json import read_json
+from py_elasticinfra.utils.json import read_json
 
 
 class Logger:
@@ -10,7 +10,7 @@ class Logger:
 
     def config_py_logger(self,
                          log_dir,
-                         log_config="py_metrics/logger/py_logger.json",
+                         log_config="py_elasticinfra/logger/py_logger.json",
                          log_levels={
                              0: logging.WARNING,
                              2: logging.DEBUG,

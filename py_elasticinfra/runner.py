@@ -1,6 +1,6 @@
 import threading
 import time
-import py_metrics.metrics as module_metric
+import py_elasticinfra.metrics as module_metric
 
 
 class Runner:
