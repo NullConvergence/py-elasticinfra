@@ -8,7 +8,7 @@ The inspiration comes from metricbeats, by Elastic, however, this module is writ
 ## Install
 
 ```
-$ pip install pyelasticinfrastructure
+$ pip install py-elasticinfrastructure 
 ```
 
 ## Run
