@@ -1,3 +1,4 @@
+import json
 from elasticsearch import Elasticsearch
 from elasticsearch.helpers import bulk
 
@@ -52,8 +53,9 @@ class Indexer:
         if config is None:
             config = self.index["config"]
         try:
+            json_config = json.dumps(config, indent=4)
             self.ex.indices.create(index=index,
-                                   body=config,
+                                   body=json_config,
                                    ignore=400)
         except Exception as exception:
             self.logger.error("[ERROR] \t Could not create es "

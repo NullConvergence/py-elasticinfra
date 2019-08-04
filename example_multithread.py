@@ -1,19 +1,30 @@
 import argparse
 import collections
 import time
+import threading
 from py_metrics.utils.parse_config import ConfigParser
 from py_metrics.elk.elastic import Indexer
 from py_metrics.runner import Runner
 
 
+def foreground_thread():
+    for i in range(5):
+        time.sleep(3)
+        print('[INFO] Foreground thread, iteration {}'.format(i+1))
+
+
 def main(config):
-    # connect to elasticsearch
+        # connect to elasticsearch
     es = Indexer(config)
     es.connect()
     es.create_index()
-    # initialize and run in loop
+    # initialize threads and run in parallel
     runner = Runner(config, es)
-    runner.loop()
+    thread_es = runner.run_background()
+    thread_main = threading.Thread(name="foreground_thread",
+                                   target=foreground_thread)
+    thread_es.start()
+    thread_main.start()
 
 
 if __name__ == "__main__":
