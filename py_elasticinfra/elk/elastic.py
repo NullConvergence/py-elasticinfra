@@ -1,4 +1,4 @@
-import datetime
+import datetime as dt
 import json
 from elasticsearch import Elasticsearch
 from elasticsearch.helpers import bulk
@@ -42,15 +42,15 @@ class Indexer:
             self.logger.info("[INFO] \t Indexed bulk in es.")
 
     def _prepare_index(self, metrics):
-        now = datetime.datetime.now()
-        str_now = now.strftime('%Y-%m-%dT%H:%M:%S.%fZ')
+        now = dt.datetime.now()
+        # str_now = now.strftime('%Y-%m-%dT%H:%M:%S.%fZ')
         for met in metrics:
             yield{
                 "_index": self.index_name,
                 "_source": {
-                    "@timestamp": str_now,
-                    "@type": met.get_type(),
-                    "@measurements": met.measure()
+                    "timestamp": now,
+                    "measurement_type": met.get_type(),
+                    "measurement": met.measure()
                 }
             }
 
@@ -67,7 +67,7 @@ class Indexer:
             config = self.index["config"]
         try:
             json_config = json.dumps(config, indent=4)
-            current_date = datetime.date.today().strftime("%d.%m.%Y")
+            current_date = dt.date.today().strftime("%d.%m.%Y")
             self.index_name = (index_name + '-' + current_date).lower()
             self.es.indices.create(index=self.index_name,
                                    body=json_config,
