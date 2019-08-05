@@ -13,13 +13,46 @@ $ pip install py-elasticinfrastructure
 
 ## Run
 
-There are two ways of running the project: (1) as an individual program, see [example.py](https://github.com/NullConvergence/py_metrics/blob/master/example.py) or (2) on a separate thread, part of a bigger project, see [example_multithread.py](https://github.com/NullConvergence/py_metrics/blob/master/example_multithread.py).
+There are two ways of running the project: (1) as an standalone program, see [example.py](https://github.com/NullConvergence/py_metrics/blob/master/example.py) or (2) on a separate thread, part of a bigger project, see [example_multithread.py](https://github.com/NullConvergence/py_metrics/blob/master/example_multithread.py).
 
-
+#### 1. Run standalone
 In order to run the project in the first case, you have to add a configuration JSON file (see [configs](https://github.com/NullConvergence/py_metrics/tree/master/configs)) and run:
 
 ```
 $ python example.py --config=configs/<config-file>.json
+```
+An example config file is provided as [default](https://github.com/NullConvergence/py_metrics/blob/master/configs/default.json). 
+Make sure you edit the elasticsearch host data before you run the project.
+
+
+#### 2. Run in a project
+In order to run in a separate project, the library will spawn a new thread and run the indexing loop.
+After instalation, you can import and configure the runner as follows:
+```
+import time
+from py_elasticinfra.elk.elastic import Indexer
+from py_elasticinfra.runner import Runner
+from py_elasticinfra.utils.parse_config import ConfigParser
+
+## confgure elasticsearch indexer
+# config can be a json or a file path
+
+es = Indexer(config)
+es.connect()
+es.create_index()
+
+# configure and run 
+runner = Runner(config, es)
+runner.run_background()
+
+# stop runner after 5 seconds
+time.sleep(5)
+runner.stop_background()
+```
+
+An example is configured in [example_multithread.py](https://github.com/NullConvergence/py-elasticinfrastructure/blob/master/example_multithread.py) and can be ran:
+```
+$ python example_multithread.py --config/<config>.json
 ```
 
 An example config file is provided as [default](https://github.com/NullConvergence/py_metrics/blob/master/configs/default.json). 
