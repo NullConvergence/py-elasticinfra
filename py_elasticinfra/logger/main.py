@@ -14,9 +14,9 @@ class Logger:
                          log_levels={
                              0: logging.WARNING,
                              2: logging.DEBUG,
-                             3: logging.ERROR
+                             3: logging.INFO
                          },
-                         default_level=logging.ERROR):
+                         default_level=logging.INFO):
         log_config = Path(log_config)
         if log_config.is_file():
             config = read_json(log_config)

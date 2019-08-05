@@ -1,3 +1,4 @@
+import logging
 from collections import OrderedDict
 from datetime import datetime
 from functools import reduce
@@ -47,7 +48,7 @@ class ConfigParser:
         self.log_dir.mkdir(parents=True, exist_ok=True)
         self.logger.config_py_logger(self.log_dir)
 
-    def get_logger(self, name, verbosity=3):
+    def get_logger(self, name, verbosity=2):
         if not self.logger:
             try:
                 self.init_logger()
@@ -56,6 +57,10 @@ class ConfigParser:
 
         logger = self.logger.get_py_logger(name, verbosity)
         return logger
+
+    def configure_es_logger(self, default_level):
+        es_logger = logging.getLogger('elasticsearch')
+        es_logger.setLevel(default_level)
 
     def _parse_config(self, config):
         if config is not None:

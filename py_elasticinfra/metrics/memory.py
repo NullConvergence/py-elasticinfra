@@ -24,3 +24,6 @@ class Memory(BaseMetric):
                 "percent": swap.percent
             }
         }
+
+    def get_type(self):
+        return 'memory'

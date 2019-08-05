@@ -15,6 +15,9 @@ class CpuTemp(BaseMetric):
         return {"cpu_temperatures": temps,
                 "cpu_temperature_average": self._get_temp_averages(temps)}
 
+    def get_type(self):
+        return 'cpu'
+
     def _get_temps(self):
         temp = psutil.sensors_temperatures()
         temps = []

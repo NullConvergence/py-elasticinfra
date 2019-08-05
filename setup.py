@@ -6,7 +6,7 @@ with open('requirements.txt') as f:
 
 setup(
     name='py-elasticinfrastructure',
-    version='1.1.0',
+    version='1.1.2',
     description='A small utilty to index infrastructure metrics to elasticsearch',
     author='NullConvergence',
     packages=find_packages(),

@@ -21,12 +21,10 @@ class Runner:
             self.run(*args, **kwargs)
 
     def run(self, index=True):
-        bulk_results = [met.measure() for met in self.metrics]
-        print(bulk_results)
         if index is True:
-            return self.es.index_bulk(bulk_results)
+            return self.es.index_bulk(self.metrics)
         else:
-            return bulk_results
+            return [met.measure() for met in self.metrics]
 
     def run_background(self, index=True):
         self.loop_thread = LoopThread(

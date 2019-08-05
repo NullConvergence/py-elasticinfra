@@ -8,3 +8,7 @@ class BaseMetric:
     @abstractmethod
     def measure(self):
         raise NotImplementedError
+
+    @abstractmethod
+    def get_type(self):
+        raise NotImplementedError

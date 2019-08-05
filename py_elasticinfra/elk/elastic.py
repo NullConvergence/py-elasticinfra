@@ -1,3 +1,4 @@
+import datetime
 import json
 from elasticsearch import Elasticsearch
 from elasticsearch.helpers import bulk
@@ -16,13 +17,13 @@ class Indexer:
 
     def connect(self):
         try:
-            self.ex = Elasticsearch(self.config["host"])
+            self.es = Elasticsearch(self.config["host"])
         except Exception as exception:
             self.logger.error("[ERROR] \t Could not connect "
                               "to elasticsearch {}".format(self.config["host"]))
             raise exception
         else:
-            if self.ex is None:
+            if self.es is None:
                 self.logger.error("[ERROR] \t Could not connect "
                                   "to elasticsearch {}".format(self.config["host"]))
                 raise "Could not connect to elasticsearch"
@@ -31,8 +32,9 @@ class Indexer:
                                  "to es")
 
     def index_bulk(self, metrics):
+        metrics = self._prepare_index(metrics)
         try:
-            bulk(self.ex, self._prepare_index(metrics))
+            bulk(self.es, metrics)
         except Exception as exception:
             self.logger.error("[ERROR] \t Could not index "
                               "bulk to elasticsearch {}".format(exception))
@@ -40,26 +42,34 @@ class Indexer:
             self.logger.info("[INFO] \t Indexed bulk in es.")
 
     def _prepare_index(self, metrics):
+        now = datetime.datetime.now()
+        str_now = now.strftime('%Y-%m-%dT%H:%M:%S.%fZ')
         for met in metrics:
             yield{
-                "_index": self.index["name"],
-                "_source": met
+                "_index": self.index_name,
+                "_source": {
+                    "@timestamp": str_now,
+                    "@type": met.get_type(),
+                    "@measurements": met.measure()
+                }
             }
 
     def _check_connection(self):
             # TODO: decide on other connection checks
             # e.g. es.cluster.health()
-        if not self.ex:
+        if not self.es:
             return False
 
-    def create_index(self, index=None, config=None):
-        if index is None:
-            index = self.index["name"]
+    def create_index(self, index_name=None, config=None):
+        if index_name is None:
+            index_name = self.index["name"]
         if config is None:
             config = self.index["config"]
         try:
             json_config = json.dumps(config, indent=4)
-            self.ex.indices.create(index=index,
+            current_date = datetime.date.today().strftime("%d.%m.%Y")
+            self.index_name = (index_name + '-' + current_date).lower()
+            self.es.indices.create(index=self.index_name,
                                    body=json_config,
                                    ignore=400)
         except Exception as exception:

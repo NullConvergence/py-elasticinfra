@@ -12,8 +12,12 @@ class GPUs(BaseMetric):
         for g in gpus:
             all.append(g.__dict__)
 
-        return {"gpus_data": all,
-                "gpus_averages": self._get_gpus_metadata(gpus)}
+        return {
+            "gpus_data": all,
+            "gpus_averages": self._get_gpus_metadata(gpus)}
+
+    def get_type(self):
+        return 'gpu'
 
     def _get_gpus_metadata(self, gpus):
         labels = ["load", "memoryUsed", "memoryFree", "temperature"]
