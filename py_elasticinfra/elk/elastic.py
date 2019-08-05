@@ -6,8 +6,9 @@ from elasticsearch.helpers import bulk
 
 class Indexer:
     def __init__(self, config, logger=None):
-        self.config = config["elk"]["elastic"]
-        self.index = self.config["index"]
+        self.config = config
+        self.elk_config = config["elk"]["elastic"]
+        self.index = self.elk_config["index"]
         if logger is None:
             try:
                 logger = config.get_logger("elk_logger")
@@ -17,15 +18,15 @@ class Indexer:
 
     def connect(self):
         try:
-            self.es = Elasticsearch(self.config["host"])
+            self.es = Elasticsearch(self.elk_config["host"])
         except Exception as exception:
             self.logger.error("[ERROR] \t Could not connect "
-                              "to elasticsearch {}".format(self.config["host"]))
+                              "to elasticsearch {}".format(self.elk_config["host"]))
             raise exception
         else:
             if self.es is None:
                 self.logger.error("[ERROR] \t Could not connect "
-                                  "to elasticsearch {}".format(self.config["host"]))
+                                  "to elasticsearch {}".format(self.elk_config["host"]))
                 raise "Could not connect to elasticsearch"
             else:
                 self.logger.info("[INFO] \t Successfully connected "
@@ -49,6 +50,8 @@ class Indexer:
                 "_index": self.index_name,
                 "_source": {
                     "timestamp": now,
+                    "experiment": self.config["name"],
+                    "hostname": self.config["hostname"],
                     "measurement_type": met.get_type(),
                     "measurement": met.measure()
                 }

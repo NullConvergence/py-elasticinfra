@@ -1,6 +1,6 @@
 {
   "time": 5,
-  "name": "TestExperiment",
+  "name": "py-elasticinfrastructure",
   "hostname": "x4",
   "save_dir": "saved/",
   "metrics": [
